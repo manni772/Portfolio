@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manmeet Singh — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0e0e0c;
+  --paper: #f2efe8;
+  --cream: #e8e4db;
+  --accent: #1a4731;
+  --accent2: #b8960c;
+  --muted: #6b6558;
+  --border: #d4cfc4;
+  --surface: #ffffff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 128px;
+}
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 3rem;
+  background: rgba(242,239,232,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-brand {
+  font-family: 'Instrument Serif', serif;
+  font-size: 18px;
+  letter-spacing: -0.3px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 2rem; }
+.nav-links a {
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+  letter-spacing: 0.02em;
+}
+.nav-links a:hover { color: var(--ink); }
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 8rem 3rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+.hero-content { max-width: 680px; }
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.2s forwards;
+}
+.hero-name {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(52px, 8vw, 96px);
+  line-height: 0.95;
+  letter-spacing: -2px;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.4s forwards;
+}
+.hero-name em {
+  font-style: italic;
+  color: var(--accent);
+}
+.hero-bio {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.6s forwards;
+}
+.hero-bio strong { color: var(--ink); font-weight: 500; }
+.hero-tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.8s forwards;
+}
+.tag {
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  background: var(--cream);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.04em;
+}
+.hero-cta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1s forwards;
+}
+.btn-primary {
+  padding: 12px 24px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  display: inline-block;
+}
+.btn-primary:hover { opacity: 0.85; }
+.btn-secondary {
+  padding: 12px 24px;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+  display: inline-block;
+}
+.btn-secondary:hover { background: var(--cream); }
+
+.hero-deco {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 380px;
+  height: 380px;
+  opacity: 0;
+  animation: fadeIn 1.2s ease 1s forwards;
+}
+.hero-deco svg { width: 100%; height: 100%; }
+
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 6rem 3rem;
+}
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  max-width: 60px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.4;
+}
+.section-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin-bottom: 1rem;
+}
+.section-title em { font-style: italic; color: var(--accent); }
+.section-sub {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.7;
+  margin-bottom: 3rem;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+.project-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.75rem;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--card-accent, var(--accent));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.project-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+.project-card:hover::before { transform: scaleX(1); }
+.project-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.project-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.badge {
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  padding: 3px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+}
+.badge-react { background: #dbeafe; color: #1e40af; }
+.badge-ai { background: #fef3c7; color: #92400e; }
+.badge-html { background: #dcfce7; color: #166534; }
+.badge-data { background: #f3e8ff; color: #6b21a8; }
+.project-arrow {
+  color: var(--muted);
+  font-size: 20px;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.project-card:hover .project-arrow { transform: translate(3px, -3px); }
+.project-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  margin-bottom: 8px;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+}
+.project-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+.project-links {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.project-link {
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.project-link:hover { text-decoration: underline; }
+.project-link.github { color: var(--muted); }
+
+.featured-card {
+  grid-column: 1 / -1;
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+.featured-card .project-title { color: white; }
+.featured-card .project-desc { color: rgba(255,255,255,0.75); }
+.featured-card .badge-react { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); }
+.featured-card .badge-ai { background: rgba(184,150,12,0.3); color: #fde99a; }
+.featured-card .project-arrow { color: rgba(255,255,255,0.5); }
+.featured-card .project-link { color: #9fe1cb; }
+.featured-card .project-link.github { color: rgba(255,255,255,0.5); }
+.featured-card::before { background: var(--accent2); }
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+.skill-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+.skill-cat {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.skill-name {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+.skill-items {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+@media (max-width: 700px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .hero-deco { display: none; }
+  nav { padding: 1rem 1.5rem; }
+  .hero { padding: 7rem 1.5rem 3rem; }
+  .section { padding: 4rem 1.5rem; }
+  .nav-links { gap: 1.25rem; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .featured-card { grid-column: 1; }
+}
+
+.about-text p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-bottom: 1.25rem;
+}
+.about-text p strong { color: var(--ink); font-weight: 500; }
+.about-details { display: flex; flex-direction: column; gap: 16px; }
+.detail-row {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.detail-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.detail-label { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 2px; }
+.detail-value { font-size: 14px; font-weight: 500; }
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.footer-left { font-family: 'Instrument Serif', serif; font-size: 16px; }
+.footer-right { font-size: 13px; color: var(--muted); }
+.footer-links { display: flex; gap: 20px; }
+.footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
+.footer-links a:hover { color: var(--ink); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes rotate {
+  from { transform: translateY(-50%) rotate(0deg); }
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<nav>
+  <a href="#" class="nav-brand">Manmeet Singh</a>
+  <div class="nav-links">
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#about">About</a>
+    <a href="https://github.com/manni772" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Available for graduate roles · Wellington, NZ</div>
+    <h1 class="hero-name">Manmeet<br><em>Singh</em></h1>
+    <p class="hero-bio">
+      <strong>Master of Business Analysis</strong> student at Victoria University of Wellington. I build AI-powered tools at the intersection of <strong>policy, data, and technology</strong> — turning complex problems into working products.
+    </p>
+    <div class="hero-tags">
+      <span class="tag">AI & machine learning</span>
+      <span class="tag">Tax & social policy</span>
+      <span class="tag">Data analysis</span>
+      <span class="tag">React & TypeScript</span>
+      <span class="tag">Vibe coding</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View my projects</a>
+      <a href="https://github.com/manni772" target="_blank" class="btn-secondary">GitHub profile →</a>
+    </div>
+  </div>
+
+  <div class="hero-deco">
+    <svg viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="190" cy="190" r="160" stroke="#1a4731" stroke-width="0.5" stroke-dasharray="4 8"/>
+      <circle cx="190" cy="190" r="120" stroke="#1a4731" stroke-width="0.5" opacity="0.5"/>
+      <circle cx="190" cy="190" r="80" stroke="#b8960c" stroke-width="0.5" stroke-dasharray="2 6"/>
+      <circle cx="190" cy="190" r="40" fill="#1a4731" fill-opacity="0.06" stroke="#1a4731" stroke-width="0.5"/>
+      <text x="190" y="196" text-anchor="middle" font-family="Instrument Serif, serif" font-size="14" fill="#1a4731" opacity="0.7">MBA</text>
+      <circle cx="190" cy="30" r="5" fill="#1a4731" opacity="0.4"/>
+      <circle cx="350" cy="190" r="5" fill="#b8960c" opacity="0.6"/>
+      <circle cx="190" cy="350" r="5" fill="#1a4731" opacity="0.4"/>
+      <circle cx="30" cy="190" r="5" fill="#b8960c" opacity="0.6"/>
+      <text x="190" y="22" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" fill="#1a4731" opacity="0.5">Policy</text>
+      <text x="362" y="194" text-anchor="start" font-family="DM Mono, monospace" font-size="9" fill="#b8960c" opacity="0.6">Data</text>
+      <text x="190" y="368" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" fill="#1a4731" opacity="0.5">AI</text>
+      <text x="18" y="194" text-anchor="end" font-family="DM Mono, monospace" font-size="9" fill="#b8960c" opacity="0.6">Tech</text>
+    </svg>
+  </div>
+</section>
+
+<section class="section" id="projects">
+  <div class="section-label">Work</div>
+  <h2 class="section-title">Built <em>projects</em></h2>
+  <p class="section-sub">Real tools solving real problems — each one live on the internet and open source.</p>
+
+  <div class="projects-grid">
+
+    <div class="project-card featured-card" style="--card-accent:#b8960c">
+      <div class="project-top">
+        <div class="project-badges">
+          <span class="badge badge-react">React</span>
+          <span class="badge badge-ai">AI · Groq</span>
+          <span class="badge badge-react">TypeScript</span>
+        </div>
+        <span class="project-arrow">↗</span>
+      </div>
+      <div class="project-title">NZ Policy Research Assistant</div>
+      <p class="project-desc">A multi-page React application for researching and generating NZ tax and social policy briefs. Applies Treasury's Living Standards Framework and IRD Cabinet paper format. Built specifically for the IRD Graduate Policy Advisor work programme.</p>
+      <div class="project-links">
+        <a href="https://nz-policy-assistant.vercel.app" target="_blank" class="project-link">Live app →</a>
+        <a href="https://github.com/manni772/nz-policy-assistant" target="_blank" class="project-link github">GitHub</a>
+      </div>
+    </div>
+
+    <div class="project-card" style="--card-accent:#1a4731">
+      <div class="project-top">
+        <div class="project-badges">
+          <span class="badge badge-html">HTML/CSS/JS</span>
+          <span class="badge badge-data">Canvas API</span>
+        </div>
+        <span class="project-arrow">↗</span>
+      </div>
+      <div class="project-title">NZ Cost of Living Dashboard</div>
+      <p class="project-desc">Interactive data dashboard tracking CPI inflation, wage growth, and housing costs across New Zealand. Data sourced from Stats NZ, RBNZ, REINZ, and CoreLogic. Custom charts built with Canvas API — no libraries.</p>
+      <div class="project-links">
+        <a href="https://manni772.github.io/nz-cost-of-living" target="_blank" class="project-link">Live app →</a>
+        <a href="https://github.com/manni772/nz-cost-of-living" target="_blank" class="project-link github">GitHub</a>
+      </div>
+    </div>
+
+    <div class="project-card" style="--card-accent:#534AB7">
+      <div class="project-top">
+        <div class="project-badges">
+          <span class="badge badge-html">HTML/CSS/JS</span>
+          <span class="badge badge-ai">AI · Groq</span>
+        </div>
+        <span class="project-arrow">↗</span>
+      </div>
+      <div class="project-title">NZ Policy Intelligence Tool</div>
+      <p class="project-desc">Two-tab tool combining an AI policy analyser (applying Treasury's framework to real IRD topics) with an interactive NZ tax explainer including live income tax, GST, and Working for Families calculators.</p>
+      <div class="project-links">
+        <a href="https://manni772.github.io/NZ-policy-tool" target="_blank" class="project-link">Live app →</a>
+        <a href="https://github.com/manni772/NZ-policy-tool" target="_blank" class="project-link github">GitHub</a>
+      </div>
+    </div>
+
+    <div class="project-card" style="--card-accent:#b8960c">
+      <div class="project-top">
+        <div class="project-badges">
+          <span class="badge badge-html">HTML/CSS/JS</span>
+          <span class="badge badge-ai">AI · Groq</span>
+        </div>
+        <span class="project-arrow">↗</span>
+      </div>
+      <div class="project-title">Business Idea Validator</div>
+      <p class="project-desc">AI-powered tool that analyses startup ideas across 8 dimensions using a custom radar chart. Features competitor landscape, idea history, side-by-side comparison, and PDF export. Powered by Llama 3.3 via Groq API.</p>
+      <div class="project-links">
+        <a href="https://manni772.github.io/business-idea-validator" target="_blank" class="project-link">Live app →</a>
+        <a href="https://github.com/manni772/business-idea-validator" target="_blank" class="project-link github">GitHub</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="skills">
+  <div class="section-label">Capabilities</div>
+  <h2 class="section-title">What I <em>bring</em></h2>
+  <p class="section-sub">A rare combination of business analysis, policy knowledge, and hands-on technical building.</p>
+
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-cat">Frontend</div>
+      <div class="skill-name">Web development</div>
+      <div class="skill-items">React · TypeScript · HTML/CSS · JavaScript · Vite</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">AI & APIs</div>
+      <div class="skill-name">AI integration</div>
+      <div class="skill-items">Groq API · Llama 3.3 · Prompt engineering · REST APIs</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Data</div>
+      <div class="skill-name">Data visualisation</div>
+      <div class="skill-items">Canvas API · Stats NZ · RBNZ data · Dashboard design</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Policy</div>
+      <div class="skill-name">NZ policy analysis</div>
+      <div class="skill-items">Treasury Living Standards Framework · IRD tax policy · Cabinet paper format</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Tools</div>
+      <div class="skill-name">Dev tools</div>
+      <div class="skill-items">GitHub · Vercel · Netlify · VS Code · StackBlitz</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Business</div>
+      <div class="skill-name">Business analysis</div>
+      <div class="skill-items">MBA candidate · Stakeholder analysis · Requirements · Problem framing</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="section-label">Background</div>
+  <h2 class="section-title">About <em>me</em></h2>
+
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a <strong>Master of Business Analysis</strong> student at Victoria University of Wellington, with a focus on the intersection of AI, policy, and data.</p>
+      <p>I taught myself to build real, working software through vibe coding — using AI as a collaborative development partner to create tools that solve genuine problems. Every project in my portfolio started as an idea and became a live product.</p>
+      <p>I'm particularly interested in how <strong>AI and technology can improve public sector decision-making</strong> — making policy analysis faster, more rigorous, and more accessible. The NZ Policy Research Assistant is a direct expression of that interest.</p>
+      <p>I'm looking for graduate roles where I can combine analytical rigour with technical capability — especially in policy, data, or product roles at organisations working on meaningful problems for Aotearoa.</p>
+    </div>
+    <div class="about-details">
+      <div class="detail-row">
+        <div class="detail-icon">🎓</div>
+        <div>
+          <div class="detail-label">Education</div>
+          <div class="detail-value">Master of Business Analysis</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:2px">Victoria University of Wellington</div>
+        </div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-icon">📍</div>
+        <div>
+          <div class="detail-label">Location</div>
+          <div class="detail-value">Wellington, Aotearoa New Zealand</div>
+        </div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-icon">💼</div>
+        <div>
+          <div class="detail-label">Seeking</div>
+          <div class="detail-value">Graduate roles in policy, data, or AI</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:2px">Available from early 2027</div>
+        </div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-icon">⚡</div>
+        <div>
+          <div class="detail-label">Interests</div>
+          <div class="detail-value">AI · Tax & social policy · Data · Building things</div>
+        </div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-icon">🐙</div>
+        <div>
+          <div class="detail-label">GitHub</div>
+          <div class="detail-value"><a href="https://github.com/manni772" target="_blank" style="color:var(--accent);text-decoration:none">github.com/manni772</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-left">Manmeet Singh</div>
+  <div class="footer-links">
+    <a href="https://github.com/manni772" target="_blank">GitHub</a>
+    <a href="#projects">Projects</a>
+    <a href="#about">About</a>
+  </div>
+  <div class="footer-right">Wellington, NZ · MBA candidate · Built with vibe coding</div>
+</footer>
+
+</body>
+</html>
